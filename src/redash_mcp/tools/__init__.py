@@ -9,6 +9,7 @@ _TOOL_MODULES = (
     "users",
     "alerts",
     "visualizations",
+    "schema",
 )
 
 
