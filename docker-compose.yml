@@ -1,0 +1,12 @@
+services:
+  redash-mcp:
+    build: .
+    environment:
+      - REDASH_API_KEY=${REDASH_API_KEY}
+      - REDASH_URL=${REDASH_URL}
+      - REDASH_MCP_TRANSPORT=${REDASH_MCP_TRANSPORT:-streamable-http}
+      - REDASH_MCP_HOST=${REDASH_MCP_HOST:-0.0.0.0}
+      - REDASH_MCP_PORT=${REDASH_MCP_PORT:-8000}
+      - REDASH_MCP_STREAMABLE_HTTP_PATH=${REDASH_MCP_STREAMABLE_HTTP_PATH:-/mcp}
+    ports:
+      - "${REDASH_MCP_PORT:-8000}:${REDASH_MCP_PORT:-8000}"
