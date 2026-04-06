@@ -130,9 +130,17 @@ async def test_archive_query(mock_api):
 
 @pytest.mark.asyncio
 async def test_refresh_query(mock_api):
+    from unittest.mock import patch
     mock_api.post("/api/queries/1/results").mock(
-        return_value=httpx.Response(200, json={"job": {"id": "job_1"}})
+        return_value=httpx.Response(200, json={"job": {"id": "job_1", "status": 1}})
     )
-    result = await refresh_query(1)
+    mock_api.get("/api/jobs/job_1").mock(
+        return_value=httpx.Response(200, json={"job": {"id": "job_1", "status": 3, "query_result_id": 10}})
+    )
+    mock_api.get("/api/query_results/10").mock(
+        return_value=httpx.Response(200, json={"query_result": {"data": {"rows": [{"n": 1}]}}})
+    )
+    with patch("asyncio.sleep"):
+        result = await refresh_query(1)
     data = json.loads(result)
-    assert data["job"]["id"] == "job_1"
+    assert data["query_result"]["data"]["rows"][0]["n"] == 1
