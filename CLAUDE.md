@@ -16,6 +16,7 @@ uv run python -m redash_mcp  # Start server (stdio)
 src/redash_mcp/
 ├── auth.py          # API key provider (strategy pattern)
 ├── client.py        # Singleton httpx client for Redash API
+├── jobs.py          # Async job polling helpers (poll_job, handle_query_result_response)
 ├── server.py        # FastMCP server instance + /ping health check
 ├── __main__.py      # CLI entrypoint with transport selection
 ├── transports/      # stdio and streamable-http transport runners
@@ -23,7 +24,7 @@ src/redash_mcp/
     ├── queries.py         # list, get, create, update, search, recent, archive, refresh
     ├── dashboards.py      # list, get, create, update
     ├── data_sources.py    # list, get, schema, test connection
-    ├── query_results.py   # get results, execute query
+    ├── query_results.py   # get results, execute query, execute sql
     ├── users.py           # list, get
     ├── alerts.py          # list, get, create
     └── visualizations.py  # list visualizations for a query

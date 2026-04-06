@@ -2,6 +2,7 @@ import json
 
 from redash_mcp.client import build_params, redash_get, redash_request
 from redash_mcp.server import mcp
+from redash_mcp.jobs import handle_query_result_response
 
 
 @mcp.tool()
@@ -102,5 +103,6 @@ async def archive_query(query_id: int) -> str:
 
 @mcp.tool()
 async def refresh_query(query_id: int) -> str:
-    """Trigger a query execution and return the result or job status."""
-    return await redash_request("POST", f"/api/queries/{query_id}/results")
+    """Trigger a query execution and return the result."""
+    raw = await redash_request("POST", f"/api/queries/{query_id}/results")
+    return await handle_query_result_response(raw)
