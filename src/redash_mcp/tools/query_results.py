@@ -41,7 +41,7 @@ async def execute_query(
         parameters_json: Optional JSON string with query parameters,
             e.g. '{"date": "2024-01-01"}'.
     """
-    body: dict = {"query_id": query_id}
+    body: dict = {}
     if parameters_json is not None:
         try:
             body["parameters"] = json.loads(parameters_json)

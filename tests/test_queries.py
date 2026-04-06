@@ -1,4 +1,5 @@
 import json
+from unittest.mock import patch
 
 import httpx
 import pytest
@@ -130,7 +131,6 @@ async def test_archive_query(mock_api):
 
 @pytest.mark.asyncio
 async def test_refresh_query(mock_api):
-    from unittest.mock import patch
     mock_api.post("/api/queries/1/results").mock(
         return_value=httpx.Response(200, json={"job": {"id": "job_1", "status": 1}})
     )
