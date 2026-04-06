@@ -2,7 +2,7 @@ import json
 
 from redash_mcp.client import redash_get, redash_request
 from redash_mcp.server import mcp
-from redash_mcp.tools.jobs import handle_query_result_response
+from redash_mcp.jobs import handle_query_result_response
 
 
 @mcp.tool()

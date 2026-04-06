@@ -77,6 +77,16 @@ async def test_execute_sql_api_error(mock_api):
 # --- execute_query ---
 
 @pytest.mark.asyncio
+async def test_execute_query_sync_result(mock_api):
+    mock_api.post("/api/queries/1/results").mock(
+        return_value=httpx.Response(200, json={"query_result": {"data": {"rows": [{"n": 1}]}}})
+    )
+    result = await execute_query(1)
+    data = json.loads(result)
+    assert data["query_result"]["data"]["rows"][0]["n"] == 1
+
+
+@pytest.mark.asyncio
 async def test_execute_query_async_success(mock_api):
     mock_api.post("/api/queries/1/results").mock(
         return_value=httpx.Response(200, json={"job": {"id": "job_1", "status": 1}})
