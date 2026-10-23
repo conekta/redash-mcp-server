@@ -102,11 +102,24 @@ async def test_update_query_no_fields():
 
 @pytest.mark.asyncio
 async def test_search_queries(mock_api):
-    route = mock_api.get("/api/queries/search").mock(
-        return_value=httpx.Response(200, json={"count": 0, "results": []})
+    route = mock_api.get("/api/queries").mock(
+        return_value=httpx.Response(
+            200, json={"count": 1, "results": [{"id": 1, "name": "Q1"}]}
+        )
     )
     await search_queries("revenue")
     assert route.calls[0].request.url.params["q"] == "revenue"
+
+
+@pytest.mark.asyncio
+async def test_search_queries_no_results(mock_api):
+    mock_api.get("/api/queries").mock(
+        return_value=httpx.Response(200, json={"count": 0, "results": []})
+    )
+    result = await search_queries("missing")
+    data = json.loads(result)
+    assert data["count"] == 0
+    assert data["results"] == []
 
 
 @pytest.mark.asyncio
