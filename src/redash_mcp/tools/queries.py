@@ -86,7 +86,7 @@ async def update_query(
 @mcp.tool()
 async def search_queries(q: str) -> str:
     """Search queries by name or description."""
-    return await redash_get("/api/queries/search", params={"q": q})
+    return await redash_get("/api/queries", params={"q": q})
 
 
 @mcp.tool()
